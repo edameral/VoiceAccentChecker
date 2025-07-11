@@ -1,0 +1,11 @@
+{
+    "pronunciation_score": "Telaffuz Puanı",
+    "accuracy_score": "Doğruluk Puanı",
+    "fluency_score": "Akıcılık Puanı",
+    "completeness_score": "Tamamlık Puanı",
+    "word": "Kelime",
+    "phoneme": "Sesbirim",
+    "error_type": "Hata Türü",
+    "mispronunciation": "Yanlış Telaffuz",
+    "assessment_results": "Değerlendirme Sonuçları"
+}

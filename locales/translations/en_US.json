@@ -1,0 +1,11 @@
+{
+    "pronunciation_score": "Pronunciation Score",
+    "accuracy_score": "Accuracy Score",
+    "fluency_score": "Fluency Score",
+    "completeness_score": "Completeness Score",
+    "word": "Word",
+    "phoneme": "Phoneme",
+    "error_type": "Error Type",
+    "mispronunciation": "Mispronunciation",
+    "assessment_results": "Assessment Results"
+}

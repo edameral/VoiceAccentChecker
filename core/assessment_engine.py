@@ -40,9 +40,8 @@ class PronunciationAssessmentEngine:
             audio_data = self.audio_handler.process_audio(audio_input)
 
             # Create audio stream from memory
-            audio_stream = speechsdk.AudioInputStream.create_push_stream(
-                speechsdk.AudioStreamFormat(samples_per_second=settings.audio_sample_rate)
-            )
+            stream_format = speechsdk.audio.AudioStreamFormat(samples_per_second=settings.audio_sample_rate)
+            audio_stream = speechsdk.audio.PushAudioInputStream(stream_format)
             audio_stream.write(audio_data)
             audio_stream.close()
 
@@ -53,8 +52,7 @@ class PronunciationAssessmentEngine:
                 reference_text=config.reference_text,
                 grading_system=speechsdk.PronunciationAssessmentGradingSystem.HundredMark,
                 granularity=config.granularity,
-                enable_miscue=config.enable_miscue,
-                phoneme_alphabet=config.phoneme_alphabet
+                enable_miscue=config.enable_miscue
             )
 
             # Create speech recognizer
@@ -96,10 +94,10 @@ class PronunciationAssessmentEngine:
                 for phoneme in word.phonemes:
                     phoneme_results.append({
                         "phoneme": phoneme.phoneme,
-                        "accuracy_score": phoneme.accuracy_score,
-                        "pronunciation": phoneme.pronunciation_assessment.pronunciation,
-                        "nist_error": phoneme.pronunciation_assessment.nist_error,
-                        "mispronunciation": phoneme.pronunciation_assessment.mispronunciation
+                        "accuracy_score": phoneme.accuracy_score
+                        # "pronunciation": ...
+                        # "nist_error": ...
+                        # "mispronunciation": ...
                     })
 
         # Word-level results

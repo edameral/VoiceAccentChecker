@@ -1,6 +1,5 @@
-from typing import List, Dict, Optional
 from pydantic import BaseModel, Field
-
+from typing import List, Dict, Optional, Union
 
 class PhonemeResult(BaseModel):
     phoneme: str

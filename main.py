@@ -2,13 +2,13 @@ import argparse
 from pathlib import Path
 from typing import Optional
 
-from core.assessment_engine import PronunciationAssessmentEngine, AssessmentConfig
-from core.language_manager import LanguageManager
-from models.assessment_result import PronunciationAssessmentResult
-from utils.file_io import FileIO
-from utils.display import display_results
-from utils.logger import logger
-from config.settings import settings
+from VoiceAccentChecker.core.assessment_engine import PronunciationAssessmentEngine, AssessmentConfig
+from VoiceAccentChecker.core.language_manager import LanguageManager
+from VoiceAccentChecker.models.assessment_result import PronunciationAssessmentResult
+from VoiceAccentChecker.utils.file_io import FileIO
+from VoiceAccentChecker.utils.display import show_results
+from VoiceAccentChecker.utils.logger import logger
+from VoiceAccentChecker.config.settings import settings
 
 
 def main():
@@ -50,7 +50,7 @@ def main():
         # Perform assessment
         if audio_path.is_file():
             result = assessment_engine.assess_pronunciation(str(audio_path), config)
-            display_results(result, verbose=args.verbose)
+            show_results(result)
 
             # Save results
             if args.output:
@@ -61,7 +61,7 @@ def main():
                 try:
                     print(f"\nProcessing: {audio_file.name}")
                     result = assessment_engine.assess_pronunciation(str(audio_file), config)
-                    display_results(result, verbose=args.verbose)
+                    show_results(result)
 
                     # Save results with same name as audio file
                     if args.output:

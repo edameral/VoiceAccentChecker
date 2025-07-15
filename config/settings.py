@@ -1,10 +1,19 @@
 import os
 from pathlib import Path
 from dotenv import load_dotenv
-from pydantic import BaseSettings, Field, validator
+from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic import Field, validator
 
-BASE_DIR = Path(__file__).resolve().parent.parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent
 
+
+dotenv_path = BASE_DIR / ".env"
+load_dotenv(dotenv_path=dotenv_path, override=True)
+
+# Debug çıktısı (opsiyonel)
+print(" BASE_DIR:", BASE_DIR)
+print(" .env bulundu mu?", dotenv_path.exists())
+print(" Yüklenen Azure Key:", os.getenv("AZURE_SPEECH_KEY"))
 
 class Settings(BaseSettings):
     # Azure Configuration
@@ -24,14 +33,16 @@ class Settings(BaseSettings):
     # Logging
     log_level: str = Field("INFO", env="LOG_LEVEL")
 
-    class Config:
-        env_file = BASE_DIR / ".env"
-        env_file_encoding = "utf-8"
+    # ✅ Pydantic v2 uyumlu yapılandırma
+    model_config = SettingsConfigDict(
+        env_file=str(dotenv_path),
+        env_file_encoding="utf-8"
+    )
 
     @validator("audio_samples_dir", "results_dir", "log_file", pre=True)
-    def ensure_dirs_exist(cls, v: Path):
-        v.parent.mkdir(parents=True, exist_ok=True)
-        return v
-
+    def ensure_dirs_exist(cls, v):
+        path = Path(v)  # 🛠️ düz string bile gelse Path'e çevir
+        path.parent.mkdir(parents=True, exist_ok=True)
+        return path
 
 settings = Settings()
